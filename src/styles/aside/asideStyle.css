@@ -1,0 +1,8 @@
+.sidebar {
+  z-index: 3;
+  background: #fc5c7d;
+  background: linear-gradient(180deg, #6a82fb, #fc5c7d);
+  opacity: 1;
+  height: 627px;
+  width: 17%;
+}

@@ -1,0 +1,24 @@
+.bg-gradient-theme {
+  background: linear-gradient(to bottom, #6a82fb, #fc5c7d);
+}
+.bg-gradient-theme-top {
+  background: linear-gradient(to top, #6a82fb, #fc5c7d);
+}
+.bg-gradient-theme-left {
+  background: linear-gradient(to left, #6a82fb, #fc5c7d);
+}
+.bg-gradient-theme-right {
+  background: linear-gradient(to right, #6a82fb, #fc5c7d);
+}
+
+.text_Login {
+  color: #6a82fb;
+  text-decoration: none;
+  background-color: initial;
+}
+
+.btn-secondary:hover {
+  color: #fff;
+  background: #fb365f linear-gradient(180deg, #fc5577, #fb365f) repeat-x;
+  border-color: #fb2a55;
+}
