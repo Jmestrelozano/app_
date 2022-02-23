@@ -13,9 +13,9 @@ import fireConfig from "../firebase/fire";
 import { HomePage } from "../pages/HomePage";
 
 export const RouteSecundary = () => {
-  const { info_login } = useSelector((state) => state.AUTH_LOGIN);
+  const { status_login } = useSelector((state) => state.AUTH_LOGIN);
   let inactivityTime = function () {
-    if (info_login.uid) {
+    if (status_login.sucess) {
       let time;
       window.onload = resetTimer;
       // DOM Events
@@ -24,7 +24,7 @@ export const RouteSecundary = () => {
 
       function logout() {
         alert("You are now logged out.");
-        refreshToken(info_login.refreshToken);
+        // refreshToken(info_login.refreshToken);
         // fireConfig.auth().signOut();
         // setInfo_login({ token: "", uid: "" ,refreshToken:''});
       }

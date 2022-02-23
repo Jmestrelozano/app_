@@ -16,64 +16,35 @@ export const FormLogin = () => {
 
   const { email, password } = formulario;
 
-  const handleSendDate = () => {
+  const handleSendDate = async () => {
     if (email === "" || password === "") {
       NotificationManager.error("Complete todos los campos", "Datos faltantes");
-    } else if (password.length <= 8) {
-      NotificationManager.warning("Contraseña > 8", "Requerido", 3000);
+    } else if (password.length <= 3) {
+      NotificationManager.warning("Contraseña >= 4", "Requerido", 3000);
     } else {
-      fireConfig
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then((result) => {
-          dispatch({
-            type: types_Login.INFO_LOGIN,
-            payload: {
-              token: result.user.multiFactor.user.accessToken,
-              uid: result.user.multiFactor.user.uid,
-              refreshToken: result.user.multiFactor.user.stsTokenManager.refreshToken,
-              email: result.user.multiFactor.user.email,
-            },
-          });
-          console.log(result);
-        })
-        .catch((error) => {
-          NotificationManager.error(error.message, "error", 3000);
-          console.log(error.message);
-        });
+      await sectionLoginUser(email, password, dispatch);
+      //   fireConfig
+      //     .auth()
+      //     .signInWithEmailAndPassword(email, password)
+      //     .then((result) => {
+      //       dispatch({
+      //         type: types_Login.INFO_LOGIN,
+      //         payload: {
+      //           token: result.user.multiFactor.user.accessToken,
+      //           uid: result.user.multiFactor.user.uid,
+      //           refreshToken: result.user.multiFactor.user.stsTokenManager.refreshToken,
+      //           email: result.user.multiFactor.user.email,
+      //         },
+      //       });
+      //       console.log(result);
+      //     })
+      //     .catch((error) => {
+      //       NotificationManager.error(error.message, "error", 3000);
+      //       console.log(error.message);
+      //     });
+      //
     }
   };
-
-  useEffect(() => {
-    let headers = new Headers();
-
-    headers.append("Content-Type", "application/json");
-    headers.append("Accept", "application/json");
-
-    headers.append("Origin", "http://localhost:3000");
-
-    let raw = JSON.stringify({
-      user: "victor",
-      pass: "1474",
-      accion: "login",
-    });
-
-    let requestOptions = {
-      method: "POST",
-      mode: "cors",
-      credentials: "same-origin",
-      headers: headers,
-      body: raw,
-    };
-
-    fetch("https://smt.vimsoft.co/mantrad/modelo/login/login.php", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        let v = result.menu;
-        console.log(JSON.parse(JSON.stringify(eval("(" + v + ")"))));
-      })
-      .catch((error) => console.log("error", error));
-  }, []);
 
   return (
     <form className="">

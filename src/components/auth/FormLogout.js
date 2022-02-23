@@ -1,14 +1,11 @@
 import React from "react";
 import { NotificationManager } from "react-notifications";
-import { useDispatch } from "react-redux";
-import { Navigate } from "react-router";
+
 import { Link } from "react-router-dom";
-import fireConfig from "../../firebase/fire";
+
 import { useForm } from "../../hooks/UseForm";
-import { types_Login } from "../../reducers/loginReducer/typesLogin";
 
 export const FormLogout = () => {
-  const dispatch = useDispatch();
   const [formulario, handleChange] = useForm({
     email: "",
     password: "",
@@ -25,26 +22,6 @@ export const FormLogout = () => {
     } else if (password !== passwordConfirm) {
       NotificationManager.error("no son iguales", "error", 3000);
     } else {
-      fireConfig
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((result) => {
-          dispatch({
-            type: types_Login.INFO_LOGIN,
-            payload: {
-              token: result.user.multiFactor.user.accessToken,
-              uid: result.user.multiFactor.user.uid,
-              refreshToken: result.user.multiFactor.user.stsTokenManager.refreshToken,
-              email: result.user.multiFactor.user.email,
-            },
-          });
-          Navigate("/");
-          console.log(result);
-        })
-        .catch((err) => {
-          console.log(err);
-          NotificationManager.error(err.message, "error", 3000);
-        });
     }
   };
   return (

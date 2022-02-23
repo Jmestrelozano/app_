@@ -5,12 +5,16 @@ import { types_Login } from "../../reducers/loginReducer/typesLogin";
 
 export const Navbar = () => {
   const dispatch = useDispatch();
+
   const { info_login } = useSelector((state) => state.AUTH_LOGIN);
+  const { usuario, foto } = info_login;
+
   const handleSingOut = () => {
     dispatch({ type: types_Login.RESET_INFO_LOGIN });
+    dispatch({ type: types_Login.AUTH_STATUS, payload: { sucesss: false, resp: "ERROR" } });
     fireConfig.auth().signOut();
   };
-  const { email } = info_login;
+
   return (
     <nav className="cr-header bg-white shadow-lg  navbar navbar-expand navbar-light">
       <ul className="mr-2 navbar-nav">
@@ -36,14 +40,14 @@ export const Navbar = () => {
         <li className="d-inline-flex nav-item">
           <a id="Popover1" className="position-relative nav-link">
             <div className="d-inline-block position-relative">
-              <p>{email}</p>
+              <p>{usuario}</p>
             </div>
           </a>
         </li>
         <li className="nav-item">
           <a id="Popover2" className="nav-link">
             <img
-              src="https://reduction-admin.github.io/react-reduction/static/media/100_4.978e51b5.jpg"
+              src={foto}
               className="rounded-circle can-click"
               style={{ width: "40px", height: "40px" }}
             />
