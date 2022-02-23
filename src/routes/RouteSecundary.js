@@ -1,4 +1,5 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { refreshToken } from "../apis/refreshToken";
 import { Configuration } from "../components/configuration/Configuration";
@@ -10,10 +11,9 @@ import { Query } from "../components/query/Query";
 import { Reports } from "../components/reports/Reports";
 import fireConfig from "../firebase/fire";
 import { HomePage } from "../pages/HomePage";
-import { LoginContext } from "../providers/loginProvider/LoginContext";
 
 export const RouteSecundary = () => {
-  const { setInfo_login, info_login } = useContext(LoginContext);
+  const { info_login } = useSelector((state) => state.AUTH_LOGIN);
   let inactivityTime = function () {
     if (info_login.uid) {
       let time;

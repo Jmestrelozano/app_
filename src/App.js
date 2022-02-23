@@ -1,11 +1,12 @@
-import LoginState from "./providers/loginProvider/LoginState";
+import { Provider } from "react-redux";
 import { RouteInitial } from "./routes/RouteInitial";
+import { store } from "./store/store";
 
 function App() {
   return (
-    <LoginState>
+    <Provider store={store}>
       <RouteInitial />
-    </LoginState>
+    </Provider>
   );
 }
 

@@ -63,10 +63,10 @@ export const Aside = () => {
                     <span className="ml-2 text-white">{category.title}</span>
                   </a>
                 </li>
-                <div class="row">
-                  <div class="col">
+                <div className="row">
+                  <div className="col">
                     <div
-                      class="collapse multi-collapse card bg-degrade "
+                      className="collapse multi-collapse card bg-degrade "
                       id={`multiCollapseExample${category.title}`}
                     >
                       {category.submenu.map((opt) => {

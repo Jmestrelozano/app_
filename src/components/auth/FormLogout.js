@@ -1,12 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import { NotificationManager } from "react-notifications";
+import { useDispatch } from "react-redux";
 import { Navigate } from "react-router";
 import { Link } from "react-router-dom";
 import fireConfig from "../../firebase/fire";
 import { useForm } from "../../hooks/UseForm";
-import { LoginContext } from "../../providers/loginProvider/LoginContext";
+import { types_Login } from "../../reducers/loginReducer/typesLogin";
 
 export const FormLogout = () => {
+  const dispatch = useDispatch();
   const [formulario, handleChange] = useForm({
     email: "",
     password: "",
@@ -14,7 +16,6 @@ export const FormLogout = () => {
   });
 
   const { email, password, passwordConfirm } = formulario;
-  const { setInfo_login } = useContext(LoginContext);
 
   const handleRegister = () => {
     if (email === "" || password === "" || passwordConfirm === "") {
@@ -28,11 +29,14 @@ export const FormLogout = () => {
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then((result) => {
-          setInfo_login({
-            token: result.user.multiFactor.user.accessToken,
-            uid: result.user.multiFactor.user.uid,
-            refreshToken: result.user.multiFactor.user.stsTokenManager.refreshToken,
-            email: result.user.multiFactor.user.email,
+          dispatch({
+            type: types_Login.INFO_LOGIN,
+            payload: {
+              token: result.user.multiFactor.user.accessToken,
+              uid: result.user.multiFactor.user.uid,
+              refreshToken: result.user.multiFactor.user.stsTokenManager.refreshToken,
+              email: result.user.multiFactor.user.email,
+            },
           });
           Navigate("/");
           console.log(result);

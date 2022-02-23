@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import fireConfig from "../../firebase/fire";
-import { LoginContext } from "../../providers/loginProvider/LoginContext";
+import { types_Login } from "../../reducers/loginReducer/typesLogin";
 
 export const Navbar = () => {
-  const { setInfo_login, info_login } = useContext(LoginContext);
+  const dispatch = useDispatch();
+  const { info_login } = useSelector((state) => state.AUTH_LOGIN);
   const handleSingOut = () => {
-    setInfo_login({ token: "", uid: "", refreshToken: "", email: "" });
+    dispatch({ type: types_Login.RESET_INFO_LOGIN });
     fireConfig.auth().signOut();
   };
   const { email } = info_login;

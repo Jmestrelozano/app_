@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 
 import { Navigate } from "react-router";
 
-import { LoginContext } from "../providers/loginProvider/LoginContext";
-
 export default function RoutePrivate({ children }) {
-  const { info_login } = useContext(LoginContext);
+  const { info_login } = useSelector((state) => state.AUTH_LOGIN);
+
   const { uid } =
     localStorage.getItem("INFO_LOGIN") !== null
       ? JSON.parse(localStorage.getItem("INFO_LOGIN"))

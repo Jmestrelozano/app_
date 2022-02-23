@@ -1,18 +1,21 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import { NotificationManager } from "react-notifications";
 import { useForm } from "../../hooks/UseForm";
 import "react-notifications/lib/notifications.css";
 import fireConfig from "../../firebase/fire";
-import { LoginContext } from "../../providers/loginProvider/LoginContext";
 import { Link } from "react-router-dom";
+import { sectionLoginUser } from "../../apis/sectionLoginUser";
+import { useDispatch } from "react-redux";
+import { types_Login } from "../../reducers/loginReducer/typesLogin";
 export const FormLogin = () => {
+  const dispatch = useDispatch();
   const [formulario, handleChange] = useForm({
     email: "",
     password: "",
   });
 
   const { email, password } = formulario;
-  const { setInfo_login } = useContext(LoginContext);
+
   const handleSendDate = () => {
     if (email === "" || password === "") {
       NotificationManager.error("Complete todos los campos", "Datos faltantes");
@@ -23,11 +26,14 @@ export const FormLogin = () => {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then((result) => {
-          setInfo_login({
-            token: result.user.multiFactor.user.accessToken,
-            uid: result.user.multiFactor.user.uid,
-            refreshToken: result.user.multiFactor.user.stsTokenManager.refreshToken,
-            email: result.user.multiFactor.user.email,
+          dispatch({
+            type: types_Login.INFO_LOGIN,
+            payload: {
+              token: result.user.multiFactor.user.accessToken,
+              uid: result.user.multiFactor.user.uid,
+              refreshToken: result.user.multiFactor.user.stsTokenManager.refreshToken,
+              email: result.user.multiFactor.user.email,
+            },
           });
           console.log(result);
         })
@@ -37,6 +43,38 @@ export const FormLogin = () => {
         });
     }
   };
+
+  useEffect(() => {
+    let headers = new Headers();
+
+    headers.append("Content-Type", "application/json");
+    headers.append("Accept", "application/json");
+
+    headers.append("Origin", "http://localhost:3000");
+
+    let raw = JSON.stringify({
+      user: "victor",
+      pass: "1474",
+      accion: "login",
+    });
+
+    let requestOptions = {
+      method: "POST",
+      mode: "cors",
+      credentials: "same-origin",
+      headers: headers,
+      body: raw,
+    };
+
+    fetch("https://smt.vimsoft.co/mantrad/modelo/login/login.php", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        let v = result.menu;
+        console.log(JSON.parse(JSON.stringify(eval("(" + v + ")"))));
+      })
+      .catch((error) => console.log("error", error));
+  }, []);
+
   return (
     <form className="">
       <div className="text-center pb-4">
